@@ -66,6 +66,7 @@ export default function Home() {
                   height={300}
                   className="w-full h-48 object-cover"
                   placeholder="blur"
+                  loading="lazy"
                   blurDataURL={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                 />
                 <div className="p-4">
