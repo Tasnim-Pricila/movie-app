@@ -15,6 +15,9 @@ const MovieDetails = async ({ params }: { params: { movieId: number } }) => {
       revalidate: 60,
     },
   });
+  if (!res.ok) {
+    throw new Error("Movie not found");
+  }
   const movie = await res.json();
 
   // Fetch movie cast
@@ -70,7 +73,10 @@ const MovieDetails = async ({ params }: { params: { movieId: number } }) => {
               character: string;
               profile_path: string;
             }) => (
-              <li key={member?.name} className="text-center flex flex-col justify-center items-center">
+              <li
+                key={member?.name}
+                className="text-center flex flex-col justify-center items-center"
+              >
                 <Image
                   src={`https://image.tmdb.org/t/p/w200${member?.profile_path}`}
                   alt={member?.name}
