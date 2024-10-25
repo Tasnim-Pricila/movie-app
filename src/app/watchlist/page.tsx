@@ -5,13 +5,19 @@ import { getWatchlist, removeFromWatchlist } from "../actions/watchlist";
 import Image from "next/image";
 import type { Watchlist } from "../types/watchlist";
 import Link from "next/link";
+import Loading from "../loading";
 
 const Watchlist = () => {
   const [watchlistData, setWatchlistData] = useState<Watchlist[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const getList = async () => {
+    setLoading(true);
     const data = await getWatchlist();
-    setWatchlistData(data);
+    if (data) {
+      setLoading(false);
+      setWatchlistData(data);
+    }
   };
 
   useEffect(() => {
@@ -25,7 +31,8 @@ const Watchlist = () => {
 
   return (
     <div>
-      {watchlistData?.length > 0 ? (
+      {loading && <Loading />}
+      {!loading && watchlistData?.length > 0 ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-12 gap-4 my-4 px-4">
           {watchlistData?.map((movie: Watchlist) => (
             <div

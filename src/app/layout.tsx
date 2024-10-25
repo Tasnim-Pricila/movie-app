@@ -6,6 +6,7 @@ import { ReactNode, useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SearchProvider, useSearch } from "./context/SearchContext";
 import { useDebounce } from "./utils/debounce";
+import { useRouter } from "next/navigation";
 
 export default function RootLayout({
   children,
@@ -43,6 +44,7 @@ export default function RootLayout({
 
 function SearchBar() {
   const { setSearchQuery } = useSearch();
+   const router = useRouter();
   const [input, setInput] = useState<string | undefined>();
   const debounceQuery = useDebounce(input, 700);
 
@@ -51,14 +53,20 @@ function SearchBar() {
       setSearchQuery(debounceQuery);
     }
   }, [debounceQuery, setSearchQuery]);
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && input && input.length >= 3) {
+      router.push("/");
+    }
+  };
 
   return (
     <div className="w-full md:w-auto">
       <input
         type="text"
-        placeholder="At least 3 char..."
+        placeholder="At least 3 character..."
         value={input}
         onChange={(e) => setInput(e.target.value)}
+        onKeyPress={handleKeyPress}
         className="bg-transparent border border-white rounded outline-none px-4 py-1 w-full md:w-[300px] lg:w-[500px]"
       />
     </div>
