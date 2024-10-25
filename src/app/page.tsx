@@ -54,11 +54,11 @@ export default function Home() {
       <h1 className="text-xl pt-4 font-semibold text-center text-blue-500">
         {searchQuery ? `Results for "${searchQuery}"` : "Popular Movies"}
       </h1>
-      <div className="grid grid-cols-8 gap-4 mt-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-8 gap-4 mt-4">
         {movies?.pages?.map((page) =>
           page?.results?.map((movie: Movie) => (
             <Link href={`/movies/${movie?.id}`} key={movie.id}>
-              <div className="max-w-xs rounded overflow-hidden shadow-lg bg-white hover:shadow-xl transition-shadow duration-200">
+              <div className="max-w-xs w-full sm:max-w-sm md:max-w-md lg:max-w-lg rounded overflow-hidden shadow-lg bg-white hover:shadow-xl transition-shadow duration-200">
                 <Image
                   src={`https://image.tmdb.org/t/p/original${movie?.poster_path}`}
                   alt={movie?.title}
@@ -70,9 +70,17 @@ export default function Home() {
                   blurDataURL={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                 />
                 <div className="p-4">
-                  <h2 className="text-lg font-semibold text-gray-800">
-                    {movie?.title}
-                  </h2>
+                  <div className="relative group">
+                    <h2
+                      className="text-lg font-semibold text-gray-800 truncate"
+                      title={movie?.title}
+                    >
+                      {movie?.title}
+                    </h2>
+                    <div className="absolute left-0 z-10 hidden w-full p-2 mt-1 text-sm text-white bg-gray-800 rounded-lg group-hover:block">
+                      {movie?.title}
+                    </div>
+                  </div>
                   <p className="text-gray-600 mt-1 text-sm">
                     Release Date: {movie?.release_date}
                   </p>

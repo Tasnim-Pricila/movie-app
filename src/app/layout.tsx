@@ -19,14 +19,21 @@ export default function RootLayout({
       <body>
         <SearchProvider>
           <QueryClientProvider client={queryClient}>
-            <header className="flex justify-between items-center px-10 py-4 bg-slate-500 ">
+            <header className="flex flex-col md:flex-row justify-between items-center px-4 py-4 bg-slate-500 space-y-4 md:space-y-0">
               <SearchBar />
-              <nav className="flex gap-4  font-semibold">
-                <Link href="/">Home</Link>
-                <Link href="/watchlist">Watchlist</Link>
+              <nav className="flex gap-4 font-semibold">
+                <Link href="/" className="hover:text-white transition-colors">
+                  Home
+                </Link>
+                <Link
+                  href="/watchlist"
+                  className="hover:text-white transition-colors"
+                >
+                  Watchlist
+                </Link>
               </nav>
             </header>
-            {children}
+            <div className="px-6">{children}</div>
           </QueryClientProvider>
         </SearchProvider>
       </body>
@@ -36,24 +43,23 @@ export default function RootLayout({
 
 function SearchBar() {
   const { setSearchQuery } = useSearch();
-  const [ input, setInput ] = useState<string | undefined>();
+  const [input, setInput] = useState<string | undefined>();
   const debounceQuery = useDebounce(input, 700);
 
   useEffect(() => {
     if (debounceQuery || debounceQuery === "") {
-      setSearchQuery(debounceQuery)
+      setSearchQuery(debounceQuery);
     }
   }, [debounceQuery, setSearchQuery]);
- 
 
   return (
-    <div>
+    <div className="w-full md:w-auto">
       <input
         type="text"
         placeholder="At least 3 char..."
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        className="bg-transparent border border-white rounded outline-none px-4 py-1 w-[500px]"
+        className="bg-transparent border border-white rounded outline-none px-4 py-1 w-full md:w-[300px] lg:w-[500px]"
       />
     </div>
   );
