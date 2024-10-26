@@ -3,13 +3,13 @@
 import { useEffect, useState } from "react";
 import { getWatchlist, removeFromWatchlist } from "../actions/watchlist";
 import Image from "next/image";
-import type { Watchlist } from "../types/watchlist";
 import Link from "next/link";
 import Loading from "../loading";
+import { Movie } from "../types/movie";
 
 const Watchlist = () => {
-  const [watchlistData, setWatchlistData] = useState<Watchlist[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [watchlistData, setWatchlistData] = useState<Movie[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const getList = async () => {
     setLoading(true);
@@ -28,13 +28,15 @@ const Watchlist = () => {
     await removeFromWatchlist(id);
     getList();
   };
+  // const watchlistData = await getWatchlist();
+  // console.log(watchlistData)
 
   return (
     <div>
       {loading && <Loading />}
       {!loading && watchlistData?.length > 0 ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-12 gap-4 my-4 px-4">
-          {watchlistData?.map((movie: Watchlist) => (
+          {watchlistData?.map((movie: Movie) => (
             <div
               key={movie?.id}
               className="flex flex-col items-center bg-white rounded shadow-sm"

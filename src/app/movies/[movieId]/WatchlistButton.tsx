@@ -5,12 +5,12 @@ import {
   getWatchlist,
   removeFromWatchlist,
 } from "@/app/actions/watchlist";
-import { Watchlist } from "@/app/types/watchlist";
+import { Movie } from "@/app/types/movie";
 import React, { useEffect, useState } from "react";
 
-const WatchlistButton = ({ movie }: { movie: Watchlist }) => {
+const WatchlistButton = ({ movie }: { movie: Movie }) => {
   const [isAdded, setIsAdded] = useState(false);
-  const [watchlistData, setWatchlistData] = useState<Watchlist[]>([]);
+  const [watchlistData, setWatchlistData] = useState<Movie[]>([]);
 
   const getList = async () => {
     const watchlist = await getWatchlist();
@@ -30,7 +30,7 @@ const WatchlistButton = ({ movie }: { movie: Watchlist }) => {
     getList();
   }, [isAdded]);
 
-  const exists = watchlistData.find((item: Watchlist) => item?.id === movie?.id);
+  const exists = watchlistData.find((item: Movie) => item?.id === movie?.id);
 
   return (
     <div className="my-4">
